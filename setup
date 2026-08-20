@@ -4,8 +4,9 @@ set -eu
 PLUGIN_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 PREFIX="${HOME}/.local/bin"
 UNIT_DIR="${HOME}/.config/systemd/user"
+WIREPLUMBER_DIR="${HOME}/.config/wireplumber/wireplumber.conf.d"
 
-mkdir -p "$PREFIX" "$UNIT_DIR"
+mkdir -p "$PREFIX" "$UNIT_DIR" "$WIREPLUMBER_DIR"
 
 if ! python3 -c 'import gi' >/dev/null 2>&1; then
   echo "PyGObject is missing; installing the system package..."
@@ -16,8 +17,10 @@ install -m 0755 "$PLUGIN_DIR/helper/bw_headphones.py" "$PREFIX/bw_headphones.py"
 install -m 0755 "$PLUGIN_DIR/helper/px7s3ctl" "$PREFIX/px7s3ctl"
 install -m 0755 "$PLUGIN_DIR/helper/px7s3d" "$PREFIX/px7s3d"
 install -m 0644 "$PLUGIN_DIR/systemd/io.github.patrikhallgren.bw-headphones.service" "$UNIT_DIR/"
+install -m 0644 "$PLUGIN_DIR/wireplumber/80-bw-headphones-profile.conf" "$WIREPLUMBER_DIR/"
 
 systemctl --user daemon-reload
+systemctl --user restart wireplumber
 systemctl --user enable --now io.github.patrikhallgren.bw-headphones.service
 omarchy-shell shell rescanPlugins || true
 omarchy plugin enable io.github.patrikhallgren.bw-headphones right || true
