@@ -27,6 +27,11 @@ class ProtocolTests(unittest.TestCase):
         self.assertEqual(decoded["kind"], "response")
         self.assertEqual(decoded["payload"], 2)
 
+    def test_decode_response_with_optional_capture_length(self):
+        decoded = decode_frame(bytes.fromhex("060c1201030000"))
+        self.assertEqual(decoded["kind"], "response")
+        self.assertEqual(decoded["error"], 0)
+
     def test_command_mapping(self):
         self.assertEqual(command("off"), (3, 2, 0))
         self.assertEqual(command("pass-through"), (3, 2, 2))
