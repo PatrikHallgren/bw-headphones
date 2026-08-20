@@ -44,6 +44,10 @@ The plugin settings can override that behavior or select a device explicitly:
 Pairing, connect/disconnect, output selection, and system volume remain in
 Omarchy’s stock Bluetooth and Audio panels.
 
+The setup script also installs a device-specific WirePlumber rule for Px7 S3
+devices. It selects SBC on reconnect because this headset was silent with
+aptX HD on the tested system. Other Bluetooth devices are not affected.
+
 ## Keyboard controls
 
 Left-click opens the panel. Right-click cycles ANC modes.
