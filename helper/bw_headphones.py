@@ -161,7 +161,7 @@ def decode_frame(raw: bytes) -> dict[str, Any]:
     # BlueZ delivers the characteristic value without the request envelope's
     # leading size byte. Accepting it as well makes captured traces easier to
     # replay without weakening the frame checks.
-    if len(raw) > 4 and raw[0] == len(raw) - 1 and raw[1] in (0x12, 0x92):
+    if len(raw) > 4 and raw[0] == len(raw) - 1 and raw[1] in (0x0C, 0x0D) and raw[2] in (0x12, 0x92):
         raw = raw[1:]
     if len(raw) < 4:
         raise ProtocolError("RPC frame is too short")
