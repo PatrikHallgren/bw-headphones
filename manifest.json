@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "id": "io.github.patrikhallgren.bw-headphones",
+  "name": "bw-headphones",
+  "version": "0.1.0",
+  "author": "Patrik Hallgren",
+  "license": "MIT",
+  "description": "Bowers & Wilkins Px7 S3 battery, audio status, and ANC controls for Omarchy.",
+  "kinds": ["bar-widget"],
+  "entryPoints": {
+    "barWidget": "Panel.qml"
+  },
+  "barWidget": {
+    "displayName": "B&W Headphones",
+    "description": "Px7 S3 battery, audio status, and ANC controls.",
+    "category": "Audio",
+    "allowMultiple": false,
+    "defaultSection": "right",
+    "defaults": {
+      "hideWhenDisconnected": true,
+      "deviceAddress": "",
+      "ctlPath": ""
+    },
+    "schema": [
+      {
+        "key": "hideWhenDisconnected",
+        "type": "boolean",
+        "label": "Hide when Px7 S3 is disconnected",
+        "defaultValue": true
+      },
+      {
+        "key": "deviceAddress",
+        "type": "string",
+        "label": "Bluetooth address",
+        "description": "Optional address to select when more than one B&W device is present.",
+        "defaultValue": ""
+      },
+      {
+        "key": "ctlPath",
+        "type": "path",
+        "label": "Path to px7s3ctl",
+        "description": "Leave empty to find px7s3ctl on PATH.",
+        "defaultValue": ""
+      }
+    ]
+  }
+}
