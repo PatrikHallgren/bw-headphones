@@ -1,0 +1,26 @@
+#!/bin/sh
+set -eu
+
+PLUGIN_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+PREFIX="${HOME}/.local/bin"
+UNIT_DIR="${HOME}/.config/systemd/user"
+
+mkdir -p "$PREFIX" "$UNIT_DIR"
+
+if ! python3 -c 'import gi' >/dev/null 2>&1; then
+  echo "PyGObject is missing; installing the system package..."
+  omarchy pkg add python-gobject
+fi
+
+install -m 0755 "$PLUGIN_DIR/helper/bw_headphones.py" "$PREFIX/bw_headphones.py"
+install -m 0755 "$PLUGIN_DIR/helper/px7s3ctl" "$PREFIX/px7s3ctl"
+install -m 0755 "$PLUGIN_DIR/helper/px7s3d" "$PREFIX/px7s3d"
+install -m 0644 "$PLUGIN_DIR/systemd/io.github.patrikhallgren.bw-headphones.service" "$UNIT_DIR/"
+
+systemctl --user daemon-reload
+systemctl --user enable --now io.github.patrikhallgren.bw-headphones.service
+omarchy-shell shell rescanPlugins || true
+omarchy plugin enable io.github.patrikhallgren.bw-headphones right || true
+
+echo "Installed bw-headphones. Pair/connect the Px7 S3, then inspect:"
+echo "  px7s3ctl status --json"

@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+
+systemctl --user disable --now io.github.patrikhallgren.bw-headphones.service 2>/dev/null || true
+rm -f "$HOME/.config/systemd/user/io.github.patrikhallgren.bw-headphones.service"
+rm -f "$HOME/.local/bin/bw_headphones.py" "$HOME/.local/bin/px7s3ctl" "$HOME/.local/bin/px7s3d"
+rm -f "${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/bw-headphones.sock"
+rm -f "${XDG_STATE_HOME:-$HOME/.local/state}/bw-headphones/status.json"
+systemctl --user daemon-reload 2>/dev/null || true
+echo "Removed bw-headphones helper files and user service."
